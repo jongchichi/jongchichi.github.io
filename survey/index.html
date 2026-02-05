@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>설문조사 TEST 페이지</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap');
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+        :root {
+            --bg-1: #f6f2ff;
+            --bg-2: #eef6ff;
+            --card: #ffffff;
+            --text: #1b1f29;
+            --muted: #6a7280;
+            --primary: #1768ff;
+            --primary-dark: #0f4ed1;
+            --ring: rgba(23, 104, 255, 0.25);
+            --shadow: 0 18px 40px rgba(14, 23, 41, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Pretendard", "Sora", system-ui, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(900px 500px at 20% -10%, #ffe7cc 0%, transparent 60%),
+                radial-gradient(700px 400px at 90% 10%, #d5f1ff 0%, transparent 55%),
+                linear-gradient(160deg, var(--bg-1), var(--bg-2));
+            padding: 40px 16px;
+        }
+
+        .card {
+            width: min(520px, 92vw);
+            background: var(--card);
+            border-radius: 24px;
+            padding: 32px 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: auto -30% -45% -30%;
+            height: 60%;
+            background: linear-gradient(120deg, rgba(23, 104, 255, 0.12), rgba(255, 166, 0, 0.08));
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0 0 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        p {
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .field {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .field.checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .field.checkbox label {
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .field.checkbox input {
+            width: 18px;
+            height: 18px;
+            padding: 0;
+            border-radius: 6px;
+            accent-color: var(--primary);
+            box-shadow: none;
+            background: #ffffff;
+        }
+
+        label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        input {
+            border: 1px solid #e1e6ef;
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-size: 15px;
+            background: #fbfcff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 6px var(--ring);
+            transform: translateY(-1px);
+            background: #ffffff;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), #46a6ff);
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(23, 104, 255, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 28px rgba(23, 104, 255, 0.32);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 18px rgba(23, 104, 255, 0.24);
+        }
+
+        .status-modal,
+        .privacy-modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 41, 0.45);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 999;
+        }
+
+        .status-modal.show,
+        .privacy-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .status-box,
+        .privacy-box {
+            width: min(360px, 86vw);
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 18px 40px rgba(14, 23, 41, 0.2);
+            text-align: center;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .status-box button {
+            margin-top: 14px;
+            width: auto;
+            padding: 10px 18px;
+            font-size: 14px;
+            border-radius: 12px;
+            box-shadow: none;
+        }
+
+        .privacy-box {
+            text-align: left;
+            width: min(440px, 90vw);
+        }
+
+        .privacy-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px;
+        }
+
+        .privacy-desc {
+            font-size: 14px;
+            color: var(--muted);
+            margin: 0 0 14px;
+            line-height: 1.5;
+        }
+
+        .privacy-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .ghost-button {
+            background: #f1f4f9;
+            color: var(--text);
+            box-shadow: none;
+        }
+
+        .privacy-link {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Symposium 참석 사전 조사</h1>
+        <p>아래 정보를 입력해 주세요.</p>
+
+        <div class="field">
+            <label for="name">이름</label>
+            <input id="name" name="name" type="text" />
+        </div>
+        <div class="field">
+            <label for="phone_number">전화번호</label>
+            <input id="phone_number" name="phone_number" type="tel" />
+        </div>
+        <div class="field">
+            <label for="id_number">면허번호</label>
+            <input id="id_number" name="id_number" type="text" />
+        </div>
+        <div class="field">
+            <label for="address">근무지</label>
+            <input id="address" name="address" type="text" />
+        </div>
+        <div class="field checkbox">
+            <input id="privacy_agree" name="privacy_agree" type="checkbox" />
+            <label for="privacy_agree">
+                개인정보 수집 및 이용에 동의합니다.
+            </label>
+        </div>
+
+        <button onclick="submitSurvey()">참석 신청하기</button>
+    </div>
+
+    <div id="survey_status_modal" class="status-modal" aria-live="polite">
+        <div class="status-box">
+            <div id="survey_status"></div>
+            <button type="button" onclick="closeStatus()">확인</button>
+        </div>
+    </div>
+    <div id="privacy_modal" class="status-modal" aria-live="polite">
+        <div class="status-box">
+            <div>개인 정보 수집에 동의해주세요.</div>
+            <button type="button" onclick="closePrivacy()">확인</button>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+    function submitSurvey(){
+        const statusEl = document.getElementById("survey_status");
+        const modalEl = document.getElementById("survey_status_modal");
+        statusEl.textContent = "";
+        modalEl.classList.remove("show");
+
+        const data = {
+            name : document.getElementById("name").value,
+            phone_number : document.getElementById("phone_number").value,
+            id_number : document.getElementById("id_number").value,
+            address: document.getElementById("address").value
+        }
+
+        const agreed = document.getElementById("privacy_agree").checked;
+        if (!agreed) {
+            const modalEl = document.getElementById("privacy_modal");
+            modalEl.classList.add("show");
+            return;
+        }
+
+        fetch("https://script.google.com/macros/s/AKfycbzUZwnO5j_mXHL5Z1YJ6rJ3XyzxkauqOoAXduaefBGv7ni5O_TmpLTdruInLR6ZXRO5tQ/exec", {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("submit_failed");
+            }
+            statusEl.textContent = "제출이 완료되었습니다.";
+            modalEl.classList.add("show");
+        })
+        .catch(() => {
+            statusEl.textContent = "제출에 실패했습니다. 잠시 후 다시 시도해 주세요.";
+            modalEl.classList.add("show");
+        });
+    }
+
+    function closeStatus() {
+        const modalEl = document.getElementById("survey_status_modal");
+        modalEl.classList.remove("show");
+    }
+
+    function openPrivacy() {
+        const modalEl = document.getElementById("privacy_modal");
+        modalEl.classList.add("show");
+    }
+
+    function closePrivacy() {
+        const modalEl = document.getElementById("privacy_modal");
+        modalEl.classList.remove("show");
+    }
+
+</script>
