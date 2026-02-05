@@ -39,10 +39,10 @@
         }
 
         .card {
-            width: min(520px, 92vw);
+            width: min(560px, 94vw);
             background: var(--card);
             border-radius: 24px;
-            padding: 32px 30px;
+            padding: 36px 34px;
             box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
@@ -59,7 +59,7 @@
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 26px;
             margin: 0 0 8px;
             position: relative;
             z-index: 1;
@@ -68,7 +68,7 @@
         p {
             margin: 0 0 24px;
             color: var(--muted);
-            font-size: 14px;
+            font-size: 15px;
             position: relative;
             z-index: 1;
         }
@@ -89,7 +89,7 @@
         }
 
         .field.checkbox label {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--text);
         }
 
@@ -104,15 +104,15 @@
         }
 
         label {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--muted);
         }
 
         input {
             border: 1px solid #e1e6ef;
             border-radius: 14px;
-            padding: 14px 16px;
-            font-size: 15px;
+            padding: 16px 18px;
+            font-size: 16px;
             background: #fbfcff;
             transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         }
@@ -129,8 +129,8 @@
             width: 100%;
             border: none;
             border-radius: 14px;
-            padding: 14px 16px;
-            font-size: 15px;
+            padding: 16px 18px;
+            font-size: 16px;
             font-weight: 600;
             color: white;
             background: linear-gradient(135deg, var(--primary), #46a6ff);
@@ -173,21 +173,21 @@
 
         .status-box,
         .privacy-box {
-            width: min(360px, 86vw);
+            width: min(400px, 90vw);
             background: #ffffff;
             border-radius: 18px;
-            padding: 18px 20px;
+            padding: 22px 22px;
             box-shadow: 0 18px 40px rgba(14, 23, 41, 0.2);
             text-align: center;
-            font-size: 15px;
+            font-size: 16px;
             color: var(--text);
         }
 
         .status-box button {
             margin-top: 14px;
             width: auto;
-            padding: 10px 18px;
-            font-size: 14px;
+            padding: 12px 20px;
+            font-size: 15px;
             border-radius: 12px;
             box-shadow: none;
         }
@@ -198,13 +198,13 @@
         }
 
         .privacy-title {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 600;
             margin: 0 0 8px;
         }
 
         .privacy-desc {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--muted);
             margin: 0 0 14px;
             line-height: 1.5;
@@ -227,6 +227,56 @@
             color: var(--primary);
             font-weight: 600;
             cursor: pointer;
+        }
+
+        @media (max-width: 540px) {
+            body {
+                padding: 8px;
+                align-items: stretch;
+            }
+
+            .card {
+                width: 100%;
+                padding: 26px 18px;
+                border-radius: 18px;
+                min-height: calc(100vh - 16px);
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            p {
+                font-size: 14px;
+                margin-bottom: 18px;
+            }
+
+            input {
+                font-size: 15px;
+                padding: 14px 16px;
+                border-radius: 12px;
+            }
+
+            .field {
+                margin-bottom: 12px;
+            }
+
+            button {
+                font-size: 15px;
+                padding: 14px 16px;
+                border-radius: 12px;
+            }
+
+            .privacy-box,
+            .status-box {
+                width: min(94vw, 400px);
+                padding: 18px 18px;
+                border-radius: 16px;
+            }
+
+            .privacy-desc {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
