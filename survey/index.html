@@ -166,7 +166,8 @@
         }
 
         .status-modal.show,
-        .privacy-modal.show {
+        .privacy-modal.show,
+        .loading-modal.show {
             opacity: 1;
             pointer-events: auto;
         }
@@ -227,6 +228,34 @@
             color: var(--primary);
             font-weight: 600;
             cursor: pointer;
+        }
+
+        .loading-modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 41, 0.35);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 998;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255, 255, 255, 0.5);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 540px) {
@@ -325,6 +354,9 @@
             <button type="button" onclick="closePrivacy()">확인</button>
         </div>
     </div>
+    <div id="loading_modal" class="loading-modal" aria-live="polite">
+        <div class="spinner" aria-label="loading"></div>
+    </div>
 
 </body>
 </html>
@@ -333,8 +365,10 @@
     function submitSurvey(){
         const statusEl = document.getElementById("survey_status");
         const modalEl = document.getElementById("survey_status_modal");
+        const loadingEl = document.getElementById("loading_modal");
         statusEl.textContent = "";
         modalEl.classList.remove("show");
+        loadingEl.classList.remove("show");
 
         const data = {
             name : document.getElementById("name").value,
@@ -350,6 +384,7 @@
             return;
         }
 
+        loadingEl.classList.add("show");
         fetch("https://script.google.com/macros/s/AKfycbzUZwnO5j_mXHL5Z1YJ6rJ3XyzxkauqOoAXduaefBGv7ni5O_TmpLTdruInLR6ZXRO5tQ/exec", {
             method: "POST",
             body: JSON.stringify(data)
@@ -364,6 +399,9 @@
         .catch(() => {
             statusEl.textContent = "제출에 실패했습니다. 잠시 후 다시 시도해 주세요.";
             modalEl.classList.add("show");
+        })
+        .finally(() => {
+            loadingEl.classList.remove("show");
         });
     }
 
